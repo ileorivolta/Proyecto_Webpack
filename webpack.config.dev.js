@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -18,7 +19,8 @@ module.exports = {
     },
     mode: 'development', //De esta manera activamos y decimos que este docuemnto de configuracion tiene nada mas la configuracino especifica para el modo de desarrollo  
 
-    watch: true, //Activa el modo de escucha para compilar automaticamente
+    devtool: 'source-map', //Genera un maoa de nuestro codigo generado en un fromato JSON deonde identifica cada una de las partes de nuestro proyecto
+
     resolve: {
       // Aqui ponemos las extensiones que tendremos en nuestro proyecto para que webpack los lea
       extensions: [".js"],
@@ -108,7 +110,16 @@ module.exports = {
         }),
 
         new Dotenv(),
+
+        new BundleAnalyzerPlugin(),
     ],
+
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        historyApiFallback: true,
+        port: 3000,
+      }
 
 }   
   
